@@ -16,7 +16,56 @@
   programs.home-manager.enable = true;
 
   programs.alacritty.enable = true;
-  programs.kitty.enable = true;
+
+  programs.kitty = {
+      enable = true;
+      extraConfig = ''
+          background #161616
+           # alternate, darker background #111111
+          foreground #adacac
+          selection_background #333333
+          selection_foreground #adacac
+          # url_color bluu
+          cursor #adacac
+          cursor_text_color #161616
+
+          # Tabs
+          active_tab_background #333333
+          active_tab_foreground #a7ab93
+          inactive_tab_background #1b1c1d
+          # inactive_tab_foreground grey
+          #tab_bar_background #161616
+
+          # Windows
+          active_border_color #a7ab93
+          inactive_border_color #696969
+
+          # normal
+          color0 #696969
+          color1 #9e5560
+          color2 #5C635F
+          color3 #b0b58a
+          color4 #565A63
+          color5 #5C5A66
+          color6 #695C55
+          color7 #717070
+
+          # bright
+          color8 #696969
+          color9 #9c797d
+          color10 #8a968f
+          color11 #b5ae84
+          color12 #808796
+          color13 #8a879c
+          color14 #a18b7f
+          color15 #adacac
+
+          # extended colors
+          color16 #111111
+          color17 #a7ab93
+
+      '';
+  };
 
   programs.zsh = {
     enable = true;
@@ -25,12 +74,11 @@
     syntaxHighlighting.enable = true;
 
 # The "Magic" code to auto-start Tmux
-    # initContent = ''
+    initContent = ''
     #   if [[ -z "$TMUX" ]] && [ "$TERM_PROGRAM" != "vscode" ]; then
     #     exec tmux attach-session -t default || tmux new-session -s default
     #   fi
-    #   set -o vi
-    # '';
+    '';
 
     shellAliases = {
       ll = "eza -l";
@@ -44,9 +92,16 @@
     enable = true;
     clock24 = true;
     mouse = true; # Let's be honest, mouse support is nice
-    # extraConfig = ''
-    #   set -g default-shell ${pkgs.zsh}/bin/zsh
-    # '';
+    extraConfig = ''
+      set -g default-shell ${pkgs.zsh}/bin/zsh
+      set-option -sg escape-time 10
+      set-option -g focus-events on
+      set-option -g default-terminal "screen-256color:RGB"
+      set -g base-index 1
+      set -g renumber-windows on
+      bind r source-file "~/.config/tmux/tmux.conf"
+
+    '';
   };
 
   programs.neovim = {
@@ -56,25 +111,30 @@
     vimAlias = true;
 
     # 1. Provide dependencies (LSPs, Linters, Formatters)
-    # This keeps them out of your global system path
+# This keeps them out of your global system path
     extraPackages = with pkgs; [
-      actionlint # GH Actions
-      lua-language-server
-      angular-language-server
-      typescript-language-server
-      nodePackages.vscode-langservers-extracted # Provides HTML, CSS, JSON, and ESLint LSPs!
-      # docker-language-server
-      dockerfile-language-server
-      vscode-json-languageserver
-      jq-lsp
-      gopls
-      pyright
-      rust-analyzer
-      nixd
-      nil # Nix LSP
-      yaml-language-server
-      ripgrep
-      fd
+        actionlint # GH Actions
+        angular-language-server
+        bash-language-server
+        # docker-language-server
+        dockerfile-language-server
+        fd
+        gopls
+        java-language-server
+        jdt-language-server
+        jq-lsp
+        kotlin-language-server
+        lua-language-server
+        nil # Nix LSP
+        nixd
+        pyright
+        ripgrep
+        rust-analyzer
+        terraform-ls
+        typescript-language-server
+        vscode-json-languageserver
+        yaml-language-server
+        nodePackages.vscode-langservers-extracted # Provides HTML, CSS, JSON, and ESLint LSPs!
     ];
 
     # 2. Manage Plugins via Nix

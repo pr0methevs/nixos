@@ -1,17 +1,49 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-
-
 -- Setup Telescope
 local builtin = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+-- Diagnostic keymaps
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
+-- Ctrl-L redraws the screen by default. Now it will also toggle search highlighting.
+vim.keymap.set('n', '<C-l>', ':set hlsearch!<cr><C-l>', { desc = 'Toggle search highlighting' })
+
+-- Navigate visual lines
+vim.keymap.set({ 'n', 'x' }, 'j', 'gj', { desc = 'Navigate down (visual line)' })
+vim.keymap.set({ 'n', 'x' }, 'k', 'gk', { desc = 'Navigate up (visual line)' })
+vim.keymap.set({ 'n', 'x' }, '<Down>', 'gj', { desc = 'Navigate down (visual line)' })
+vim.keymap.set({ 'n', 'x' }, '<Up>', 'gk', { desc = 'Navigate up (visual line)' })
+vim.keymap.set('i', '<Down>', '<C-\\><C-o>gj', { desc = 'Navigate down (visual line)' })
+vim.keymap.set('i', '<Up>', '<C-\\><C-o>gk', { desc = 'Navigate up (visual line)' })
+
+-- Navigating buffers
+vim.keymap.set('n', '<leader>bb', '<C-^>', { desc = 'Switch to alternate buffer' })
+vim.keymap.set('n', '<leader>bn', ':bnext<cr>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bp', ':bprevious<cr>', { desc = 'Previous buffer' })
 
 -- 1. Enable the server (this replaces .setup{})
 -- The name must match the filename in nvim-lspconfig's lsp/ directory
-vim.lsp.enable('nil_ls') 
+-- https://github.com/neovim/nvim-lspconfig/tree/master/lsp
+vim.lsp.enable(
+    'ansiblels',
+    'bashls',
+    'docker-language-server',
+    'gh_actions',
+    'gopls',
+    'jdtls',
+    'jqls',
+    'kotlin_language-server',
+    'lua_ls',
+    'nil_ls',
+    'pyright',
+    'rust_analyzer',
+    'terraformls',
+    'ts_ls',
+    'yamlls'
+) 
 
 -- 2. (Optional) Customize the config
 -- If you need to pass specific settings (like formatting), use this:
@@ -35,86 +67,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 vim.cmd("colorscheme gruvbox")
 
-
--- -- [[ setting options ]]
--- -- see `:help vim.opt`
--- -- note: you can change these options as you wish!
--- --  for more options, you can see `:help option-list`
---
--- -- make line numbers default
--- vim.opt.number = true
--- -- you can also add relative line numbers, to help with jumping.
--- --  experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
---
--- -- enable mouse mode, can be useful for resizing splits for example!
--- vim.opt.mouse = 'a'
---
--- -- don't show the mode, since it's already in the status line
--- vim.opt.showmode = false
---
--- -- sync clipboard between os and neovim.
--- --  schedule the setting after `uienter` because it can increase startup-time.
--- --  remove this option if you want your os clipboard to remain independent.
--- --  see `:help 'clipboard'`
--- vim.schedule(function()
---     vim.opt.clipboard = 'unnamedplus'
--- end)
---
--- -- enable break indent
--- vim.opt.breakindent = true
---
--- -- save undo history
--- vim.opt.undofile = true
---
--- -- case-insensitive searching unless \c or one or more capital letters in the search term
--- vim.opt.ignorecase = true
--- vim.opt.smartcase = true
---
--- -- keep signcolumn on by default
--- vim.opt.signcolumn = 'yes'
---
--- -- decrease update time
--- vim.opt.updatetime = 250
---
--- -- decrease mapped sequence wait time
--- -- displays which-key popup sooner
--- vim.opt.timeoutlen = 300
---
--- -- configure how new splits should be opened
--- vim.opt.splitright = true
--- vim.opt.splitbelow = true
---
--- -- sets how neovim will display certain whitespace characters in the editor.
--- --  see `:help 'list'`
--- --  and `:help 'listchars'`
--- vim.opt.list = false
--- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
--- -- vim.opt.listchars = { trail = '·', nbsp = '␣' }
---
--- -- preview substitutions live, as you type!
--- vim.opt.inccommand = 'split'
---
--- -- show which line your cursor is on
--- vim.opt.cursorline = true
---
--- -- minimal number of screen lines to keep above and below the cursor.
--- vim.opt.scrolloff = 10
---
--- vim.opt.tabstop = 4 -- how many spaces a <Tab> visually represents
--- vim.opt.shiftwidth = 4 -- indentation width for >>, <<, ==, autoindent
--- vim.opt.softtabstop = 4 -- how many spaces <Tab>/<BS> use while editing
--- vim.opt.expandtab = true -- insert spaces instead of a real <Tab> char
---
--- -- Per‑filetype
--- vim.api.nvim_create_autocmd('FileType', {
---     pattern = { 'yaml' },
---     callback = function()
---         vim.opt_local.tabstop = 2
---         vim.opt_local.shiftwidth = 2
---         vim.opt_local.softtabstop = 2
---         vim.opt_local.expandtab = true
---     end,
--- })
---
-require 'options'
+require('options')
