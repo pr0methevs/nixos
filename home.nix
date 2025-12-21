@@ -7,6 +7,9 @@
   home.packages = with pkgs; [
     fastfetch
     obsidian
+    tmux
+    brave
+    quickshell
   ];
 
   # Let Home Manager install and manage itself
@@ -55,8 +58,21 @@
     # 1. Provide dependencies (LSPs, Linters, Formatters)
     # This keeps them out of your global system path
     extraPackages = with pkgs; [
+      actionlint # GH Actions
       lua-language-server
+      angular-language-server
+      typescript-language-server
+      nodePackages.vscode-langservers-extracted # Provides HTML, CSS, JSON, and ESLint LSPs!
+      # docker-language-server
+      dockerfile-language-server
+      vscode-json-languageserver
+      jq-lsp
+      gopls
+      pyright
+      rust-analyzer
+      nixd
       nil # Nix LSP
+      yaml-language-server
       ripgrep
       fd
     ];
@@ -65,7 +81,32 @@
     # Search for names at: https://search.nixos.org/flakes?type=packages&query=vimPlugins
     plugins = with pkgs.vimPlugins; [
       nvim-lspconfig
-      (nvim-treesitter.withPlugins (p: [ p.lua p.nix p.vim p.markdown ]))
+      nvim-cmp
+      cmp-nvim-lsp    # Suggestions from the Language Server
+      cmp-buffer      # Suggestions from the current file text
+      cmp-path        # Suggestions for file system paths
+      cmp-cmdline     # Suggestions for the command line (:)
+    
+      # --- Snippets (Highly Recommended) ---
+      # nvim-cmp usually needs a snippet engine to work well
+      luasnip         # The snippet engine
+      cmp_luasnip     # Link between nvim-cmp and luasnip
+      neo-tree-nvim
+      (nvim-treesitter.withPlugins (p: [ 
+          p.angular 
+          p.bash 
+          p.css 
+          p.jq 
+          p.json 
+          p.lua 
+          p.markdown 
+          p.nix 
+          p.python 
+          p.toml 
+          p.typescript 
+          p.vim 
+          ])
+      )
       telescope-nvim
       gruvbox-nvim
     ];
