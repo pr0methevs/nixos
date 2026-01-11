@@ -94,13 +94,14 @@
     mouse = true; # Let's be honest, mouse support is nice
     extraConfig = ''
       set -g default-shell ${pkgs.zsh}/bin/zsh
+      set -g mode-keys vi
+      set -g status-keys vi
       set-option -sg escape-time 10
       set-option -g focus-events on
-      set-option -g default-terminal "screen-256color:RGB"
+      # set-option -g default-terminal "screen-256color:RGB"
       set -g base-index 1
       set -g renumber-windows on
       bind r source-file "~/.config/tmux/tmux.conf"
-
     '';
   };
 

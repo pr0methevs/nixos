@@ -117,7 +117,6 @@
     fd
     ripgrep
     fzf
-    # quickshell
     git
     vscode
 
