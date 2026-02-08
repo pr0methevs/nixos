@@ -10,6 +10,7 @@
     tmux
     brave
     quickshell
+    libreoffice
   ];
 
   # Let Home Manager install and manage itself
@@ -104,6 +105,10 @@
       bind r source-file "~/.config/tmux/tmux.conf"
     '';
   };
+
+  # programs.go = {
+  #   enable = true;
+  # };
 
   programs.neovim = {
     enable = true;
